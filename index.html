@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Моей Принцессе ❤️</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#ff4d6d,#ff8fa3,#ffc2d1);
+    color:white;
+}
+
+.hearts{
+    position:absolute;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    top:0;
+    left:0;
+    z-index:-1;
+}
+
+.heart{
+    position:absolute;
+    bottom:-50px;
+    font-size:24px;
+    animation:float linear infinite;
+    opacity:0.7;
+}
+
+@keyframes float{
+    from{
+        transform:translateY(0) rotate(0deg);
+    }
+    to{
+        transform:translateY(-120vh) rotate(360deg);
+    }
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.container{
+    width:90%;
+    max-width:430px;
+    padding:30px;
+    border-radius:25px;
+    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,0.12);
+    box-shadow:0 0 30px rgba(0,0,0,0.2);
+    text-align:center;
+    animation:fade 1s ease;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+p{
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:15px;
+    outline:none;
+    text-align:center;
+    font-size:16px;
+    margin-bottom:15px;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:15px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:bold;
+    background:white;
+    color:#ff4d6d;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.03);
+}
+
+#error{
+    margin-top:15px;
+    display:none;
+}
+
+#mainContent{
+    display:none;
+    width:90%;
+    max-width:450px;
+    animation:fade 1s ease;
+}
+
+.card{
+    padding:20px;
+    border-radius:25px;
+    backdrop-filter:blur(10px);
+    background:rgba(255,255,255,0.12);
+    box-shadow:0 0 30px rgba(0,0,0,0.2);
+    text-align:center;
+}
+
+.photo{
+    width:100%;
+    height:320px;
+    object-fit:cover;
+    border-radius:20px;
+    margin-bottom:20px;
+    animation:fade 0.7s ease;
+}
+
+.text{
+    font-size:18px;
+    line-height:1.5;
+    min-height:110px;
+    margin-bottom:20px;
+    animation:fade 0.7s ease;
+}
+
+.counter{
+    margin-bottom:15px;
+    opacity:0.8;
+}
+
+.finish{
+    font-size:28px;
+    line-height:1.4;
+    padding:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="hearts">
+    <div class="heart" style="left:10%;animation-duration:10s;">❤️</div>
+    <div class="heart" style="left:25%;animation-duration:13s;">💕</div>
+    <div class="heart" style="left:40%;animation-duration:11s;">💖</div>
+    <div class="heart" style="left:60%;animation-duration:15s;">💘</div>
+    <div class="heart" style="left:75%;animation-duration:9s;">💞</div>
+    <div class="heart" style="left:90%;animation-duration:12s;">❤️</div>
+</div>
+
+<div class="container" id="loginBox">
+    <h1>Мяу ❤️</h1>
+    <p>Введи свой пароль</p>
+
+    <input type="password" id="password" placeholder="Пароль">
+
+    <button onclick="checkPassword()">Открыть</button>
+
+    <div id="error">Неправильно... 💔</div>
+</div>
+
+<div id="mainContent">
+    <div class="card">
+
+        <div class="counter" id="counter"></div>
+
+        <img id="photo" class="photo" src="images/photo1.jpg">
+
+        <div class="text" id="text"></div>
+
+        <button onclick="nextSlide()" id="nextBtn">
+            Вперед ❤️
+        </button>
+
+    </div>
+</div>
+
+<script>
+const password = "maxii1360";
+
+const slides = [
+    {
+        photo:"images/photo1.jpg",
+        text:"Радость моя, ты такая красивая и милая, я не могу представить жизни без тебя ❤️"
+    },
+
+    {
+        photo:"images/photo2.jpg",
+        text:"Мне так приятно проводить время с тобой ❤️"
+    },
+
+    {
+        photo:"images/photo3.jpg",
+        text:"Рядом с тобой всегда спокойно и тепло на душе ❤️"
+    },
+
+    {
+        photo:"images/photo4.jpg",
+        text:"Красотка которая вся досталась только мне ❤️"
+    },
+
+    {
+        photo:"images/photo5.jpg",
+        text:"Я так сильно тебя люблю! ❤️"
+    }
+];
+
+let current = 0;
+
+function checkPassword(){
+    const value = document.getElementById("password").value;
+
+    if(value === password){
+        document.getElementById("loginBox").style.display = "none";
+        document.getElementById("mainContent").style.display = "block";
+
+        updateSlide();
+    }
+    else{
+        document.getElementById("error").style.display = "block";
+    }
+}
+
+function updateSlide(){
+    const photo = document.getElementById("photo");
+    const text = document.getElementById("text");
+    const counter = document.getElementById("counter");
+
+    photo.src = slides[current].photo;
+    text.innerText = slides[current].text;
+
+    counter.innerText = (current + 1) + " / " + slides.length;
+
+    if(current === slides.length - 1){
+        document.getElementById("nextBtn").innerText = "Завершить ❤️";
+    }
+}
+
+function nextSlide(){
+    current++;
+
+    if(current >= slides.length){
+        document.querySelector(".card").innerHTML =
+        `
+        <div class="finish">
+            Спасибо тебе за то что ты у меня есть ❤️<br><br>
+            Лублу тобя Моя Принцесса ✨
+        </div>
+        `;
+        return;
+    }
+
+    updateSlide();
+}
+</script>
+
+</body>
+</html>
